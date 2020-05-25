@@ -1,10 +1,10 @@
-import Unity from './unity';
 import Input from './input';
+import Unity from './unity';
 import Action from './action';
 
 class Project {
   static get relativePath() {
-    const { projectPath } = Input.getFromUser();
+    const { projectPath } = Input;
 
     return `${projectPath}`;
   }

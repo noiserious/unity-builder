@@ -1,26 +1,25 @@
+import Input from './input';
 import Platform from './platform';
+import Versioning from './versioning';
 
 class BuildParameters {
-  static create(parameters) {
-    const {
-      unityVersion,
-      targetPlatform,
-      projectPath,
-      buildName,
-      buildsPath,
-      buildMethod,
-      customParameters,
-    } = parameters;
+  static async create() {
+    const buildFile = this.parseBuildFile(Input.buildName, Input.targetPlatform);
+    const buildVersion = await Versioning.determineVersion(
+      Input.versioningStrategy,
+      Input.specifiedVersion,
+    );
 
     return {
-      version: unityVersion,
-      platform: targetPlatform,
-      projectPath,
-      buildName,
-      buildPath: `${buildsPath}/${targetPlatform}`,
-      buildFile: this.parseBuildFile(buildName, targetPlatform),
-      buildMethod,
-      customParameters,
+      version: Input.unityVersion,
+      platform: Input.targetPlatform,
+      projectPath: Input.projectPath,
+      buildName: Input.buildName,
+      buildPath: `${Input.buildsPath}/${Input.targetPlatform}`,
+      buildFile,
+      buildMethod: Input.buildMethod,
+      buildVersion,
+      customParameters: Input.customParameters,
     };
   }
 

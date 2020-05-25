@@ -6,12 +6,12 @@ describe('Index', () => {
     'BuildParameters',
     'Cache',
     'Docker',
-    'Input',
     'ImageTag',
+    'Input',
     'Platform',
     'Project',
     'Unity',
-  ])('exports %s', exportedModule => {
-    expect(typeof Index[exportedModule]).toStrictEqual('function');
+  ])('exports %s', (exportedModule) => {
+    expect(Index[exportedModule]).toBeEitherAFunctionOrAnObject();
   });
 });

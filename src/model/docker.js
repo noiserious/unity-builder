@@ -12,7 +12,7 @@ class Docker {
       --build-arg IMAGE=${baseImage} \
       --tag ${tag}`;
 
-    await exec(command, null, { silent });
+    await exec(command, undefined, { silent });
 
     return tag;
   }
@@ -27,6 +27,7 @@ class Docker {
       buildPath,
       buildFile,
       buildMethod,
+      buildVersion,
       customParameters,
     } = parameters;
 
@@ -34,6 +35,7 @@ class Docker {
         --workdir /github/workspace \
         --rm \
         --env UNITY_LICENSE \
+        --env UNITY_LICENSE_FILE \
         --env UNITY_EMAIL \
         --env UNITY_PASSWORD \
         --env UNITY_SERIAL \
@@ -44,6 +46,7 @@ class Docker {
         --env BUILD_PATH="${buildPath}" \
         --env BUILD_FILE="${buildFile}" \
         --env BUILD_METHOD="${buildMethod}" \
+        --env VERSION="${buildVersion}" \
         --env CUSTOM_PARAMETERS="${customParameters}" \
         --env HOME=/github/home \
         --env GITHUB_REF \
@@ -67,7 +70,7 @@ class Docker {
         --volume "${workspace}":"/github/workspace" \
         ${image}`;
 
-    await exec(command, null, { silent });
+    await exec(command, undefined, { silent });
   }
 }
 

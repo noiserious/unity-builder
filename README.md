@@ -1,7 +1,6 @@
 # Unity - Builder
 
 [![Actions status](https://github.com/webbertakken/unity-builder/workflows/Actions%20%F0%9F%98%8E/badge.svg?event=push&branch=master)](https://github.com/webbertakken/unity-builder/actions?query=branch%3Amaster+event%3Apush+workflow%3A%22Actions+%F0%9F%98%8E%22)
-[![snyk - known vulnerabilities](https://snyk.io/test/github/webbertakken/unity-builder/badge.svg)](https://snyk.io/test/github/webbertakken/unity-builder)
 [![lgtm - code quality](https://img.shields.io/lgtm/grade/javascript/g/webbertakken/unity-builder.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/webbertakken/unity-builder/context:javascript)
 [![codecov - test coverage](https://codecov.io/gh/webbertakken/unity-builder/branch/master/graph/badge.svg)](https://codecov.io/gh/webbertakken/unity-builder)
 
@@ -51,7 +50,7 @@ your license file and add it as a secret.
 Then, define the build step as follows:
 
 ```yaml
-- uses: webbertakken/unity-builder@v0.10
+- uses: webbertakken/unity-builder@<version>
   env:
     UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   with:
@@ -73,7 +72,7 @@ Instead, three variables will need to be set.
 Define the build step as follows:
 
 ```yaml
-- uses: webbertakken/unity-builder@v0.10
+- uses: webbertakken/unity-builder@<version>
   env:
     UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
     UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
@@ -177,7 +176,7 @@ jobs:
           restore-keys: |
             Library-${{ matrix.projectPath }}-
             Library-
-      - uses: webbertakken/unity-builder@v0.10
+      - uses: webbertakken/unity-builder@<version>
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
@@ -245,13 +244,70 @@ There are two conditions for a custom buildCommand:
 _**example:**_
 
 ```yaml
-- uses: webbertakken/unity-builder@master
+- uses: webbertakken/unity-builder@<version>
   with:
     buildMethod: EditorNamespace.BuilderClassName.StaticBulidMethod
 ```
 
 _**required:** `false`_
 _**default:** Built-in script that will run a build out of the box._
+
+#### versioning
+
+Configure a specific versioning strategy
+
+```yaml
+- uses: webbertakken/unity-builder@<version>
+  with:
+    versioning: Semantic
+```
+
+Find the available strategies below:
+
+##### Semantic
+
+Versioning out of the box! **(recommended)**
+
+> Compatible with **all platforms**.  
+> Does **not** modify your repository.  
+> Requires **zero configuration**.
+
+How it works:
+
+> Generates a version based on [semantic versioning](https://semver.org/).  
+> Follows `<major>.<minor>.<patch>` for example `0.17.2`.  
+> The latest tag dictates `<major>.<minor>` (defaults to 0.0 for no tag).  
+> The number of commits (since the last tag, if any) is used for `<patch>`.
+
+No configuration required.
+
+##### Custom
+
+Allows specifying a custom version in the `version` field. **(advanced users)**
+
+> This strategy is useful when your project or pipeline has some kind of orchestration
+> that determines the versions.
+
+##### None
+
+No version will be set by Builder. **(not recommended)**
+
+> Not recommended unless you generate a new version in a pre-commit hook. Manually
+> setting versions is error-prone.
+
+#### allowDirtyBuild
+
+Allows the branch of the build to be dirty, and still generate the build.
+
+```yaml
+- uses: webbertakken/unity-builder@<version>
+  with:
+    allowDirtyBuild: true
+```
+
+Note that it is generally bad practice to modify your branch
+in a CI Pipeline. However there are exceptions where this might
+be needed. (use with care).
 
 #### customParameters
 
@@ -264,7 +320,7 @@ Parameters without a value will be considered booleans (with a value of true).
 _**example:**_
 
 ```yaml
-- uses: webbertakken/unity-builder@master
+- uses: webbertakken/unity-builder@<version>
   with:
     customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
 ```
