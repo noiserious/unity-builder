@@ -71,7 +71,7 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
       -quit \
       -serial "$UNITY_SERIAL" \
       -username "$UNITY_EMAIL" \
-      -password "$UNITY_PASSWORD"
+      -password "$UNITY_PASSWORD" &
 
   echo "Waiting for 20 sec"
   sleep 20
