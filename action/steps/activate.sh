@@ -65,12 +65,30 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
   # Activate license
   xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
     /opt/Unity/Editor/Unity \
-      -logFile /dev/stdout \
       -batchmode \
+      -nographics \
+      -logFile /dev/stdout \
+      -quit \
       -serial "$UNITY_SERIAL" \
       -username "$UNITY_EMAIL" \
       -password "$UNITY_PASSWORD"
 
+  echo "Waiting for 20 sec"
+  sleep 20
+  echo "Killing Unity"
+  killall -9 /opt/Unity/Editor/Unity
+
+  echo "Trying again to activate."
+  xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
+    /opt/Unity/Editor/Unity \
+      -batchmode \
+      -nographics \
+      -logFile /dev/stdout \
+      -quit \
+      -serial "$UNITY_SERIAL" \
+      -username "$UNITY_EMAIL" \
+      -password "$UNITY_PASSWORD"
+      
   # Store the exit code from the verify command
   UNITY_EXIT_CODE=$?
 
