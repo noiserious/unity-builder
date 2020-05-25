@@ -65,8 +65,6 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
   # Activate license
   xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
     /opt/Unity/Editor/Unity \
-      -batchmode \
-      -nographics \
       -logFile /dev/stdout \
       -quit \
       -serial "$UNITY_SERIAL" \
@@ -76,10 +74,8 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
   echo "Waiting for 20 sec"
   sleep 20
   echo "Killing Unity"
-  pidof /opt/Unity/Editor/Unity
-  echo $!
-  kill -9 /opt/Unity/Editor/Unity
-  kill -9 $!
+  var unitypid = $(pidof "/opt/Unity/Editor/Unity")
+  kill -9 unitypid
 
   echo "Trying again to activate."
   xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
