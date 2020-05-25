@@ -74,8 +74,8 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
   echo "Waiting for 20 sec"
   sleep 20
   echo "Killing Unity"
-  var unitypid = $(pidof "/opt/Unity/Editor/Unity")
-  kill -9 unitypid
+  unitypid=$(pidof "/opt/Unity/Editor/Unity")
+  kill -9 $unitypid
 
   echo "Trying again to activate."
   xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
