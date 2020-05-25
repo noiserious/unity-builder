@@ -66,20 +66,7 @@ elif [[ -n "$UNITY_SERIAL" && -n "$UNITY_EMAIL" && -n "$UNITY_PASSWORD" ]]; then
   xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
     /opt/Unity/Editor/Unity \
       -logFile /dev/stdout \
-      -quit \
-      -serial "$UNITY_SERIAL" \
-      -username "$UNITY_EMAIL" \
-      -password "$UNITY_PASSWORD"
-      
-  sleep 20 # we just want to wait a little while for Unity to launch and the license agreement to start timing out
-  killall -9 /opt/Unity/Editor/Unity # now we kill unity
-      
-  xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' \
-    /opt/Unity/Editor/Unity \
       -batchmode \
-      -nographics \
-      -logFile /dev/stdout \
-      -quit \
       -serial "$UNITY_SERIAL" \
       -username "$UNITY_EMAIL" \
       -password "$UNITY_PASSWORD"
